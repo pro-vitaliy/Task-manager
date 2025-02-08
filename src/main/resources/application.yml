@@ -1,0 +1,23 @@
+---
+logging:
+  root: WARN
+
+spring:
+  profiles:
+    active: development
+  output:
+    ansi:
+      enabled: ALWAYS
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
+
+sentry:
+  dsn: https://fb22202a11e534b4d8960606b1d6d007@o4508771042328576.ingest.de.sentry.io/4508771058909264
+
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem

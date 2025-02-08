@@ -1,0 +1,22 @@
+---
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        security: DEBUG
+spring:
+  config:
+    activate:
+      on-profile: development
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:dev-db;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  h2:
+    console.enabled: true
+  jpa:
+    show-sql: true
+    ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
