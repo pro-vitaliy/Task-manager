@@ -39,8 +39,7 @@ dependencies {
 	implementation("net.datafaker:datafaker:2.4.2")
 	implementation("org.mapstruct:mapstruct:1.6.3")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.4")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql")
@@ -52,8 +51,6 @@ dependencies {
 	testImplementation("org.instancio:instancio-junit:5.2.1")
 	testImplementation("net.javacrumbs.json-unit:json-unit-spring:4.1.0")
 	testImplementation("org.mockito:mockito-core:5.14.2")
-	testImplementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.5.0")
-	testImplementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 }
 
 tasks.withType<Test> {
