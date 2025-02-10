@@ -3,14 +3,24 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/770028434501dc79f661/maintainability)](https://codeclimate.com/github/pro-vitaliy/java-project-99/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/770028434501dc79f661/test_coverage)](https://codeclimate.com/github/pro-vitaliy/java-project-99/test_coverage)
 
-## Task manager
+# Task Manager
 
-#### What is that?
-Task Manager is a task management system similar to [Redmine](http://www.redmine.org/). It allows users to create tasks, assign executors, and change their statuses. Registration and authentication are required to use the system.
+## 📌 Overview
+Task Manager is a simple and efficient task management system, inspired by [Redmine](http://www.redmine.org/).  
+It allows users to create tasks, assign executors, and track their progress by updating statuses.  
+To access the system, registration and authentication are required.
 
-#### How to try?
-A live demo of the application is available at [this link](https://java-project-99-o1bg.onrender.com).
+## 🚀 Try it Live!
+A demo version is available here: **[Task Manager Demo](https://java-project-99-o1bg.onrender.com)**.
 
-Use the administrator credentials to log in:
+Use the following credentials to log in:
 - **Username:** `hexlet@example.com`
 - **Password:** `qwerty`
+
+_(You can create your own account as well!)_
+
+## 📖 API Documentation
+Explore the API via Swagger:
+- **[Interactive UI](https://java-project-99-o1bg.onrender.com/swagger-ui/index.html)**
+- **[OpenAPI JSON](https://java-project-99-o1bg.onrender.com/api-docs)**  
+
