@@ -4,7 +4,7 @@ WORKDIR /
 
 COPY . .
 
-RUN ./gradlew build -x test
+RUN ./gradlew build -x test -PactiveProfile=production
 
 FROM openjdk:21-jdk-slim
 
