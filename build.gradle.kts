@@ -27,7 +27,7 @@ repositories {
 	mavenCentral()
 }
 
-val activeProfile: String by project
+val activeProfile = project.findProperty("activeProfile") as String? ?: "development"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
