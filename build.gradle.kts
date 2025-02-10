@@ -21,6 +21,11 @@ configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
 	}
+
+	testImplementation {
+		exclude(group = "org.springdoc", module = "springdoc-openapi-starter-webmvc-ui")
+		exclude(group = "org.springdoc", module = "springdoc-openapi-starter-webmvc-api")
+	}
 }
 
 repositories {
