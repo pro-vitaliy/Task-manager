@@ -21,16 +21,13 @@ configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
 	}
-
-	testImplementation {
-		exclude(group = "org.springdoc", module = "springdoc-openapi-starter-webmvc-ui")
-		exclude(group = "org.springdoc", module = "springdoc-openapi-starter-webmvc-api")
-	}
 }
 
 repositories {
 	mavenCentral()
 }
+
+val activeProfile: String by project
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -55,8 +52,11 @@ dependencies {
 	testImplementation("org.instancio:instancio-junit:5.2.1")
 	testImplementation("net.javacrumbs.json-unit:json-unit-spring:4.1.0")
 	testImplementation("org.mockito:mockito-core:5.14.2")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.4")
+
+	if (activeProfile == "production") {
+		implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4")
+		implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.4")
+	}
 }
 
 tasks.withType<Test> {
