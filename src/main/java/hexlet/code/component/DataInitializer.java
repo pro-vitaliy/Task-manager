@@ -2,7 +2,7 @@ package hexlet.code.component;
 
 import hexlet.code.dto.label.LabelDTO;
 import hexlet.code.dto.taskStatus.TaskStatusDTO;
-import hexlet.code.dto.user.UserCreateDTO;
+import hexlet.code.dto.user.UserDTO;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
@@ -39,8 +39,12 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        var userData = new UserCreateDTO("hexlet@example.com", "qwerty");
-        if (!userRepository.existsByEmail(userData.getEmail())) {
+        var userData = new UserDTO(
+                JsonNullable.of("hexlet@example.com"),
+                JsonNullable.of("qwerty")
+        );
+
+        if (!userRepository.existsByEmail(userData.getEmail().get())) {
             userService.create(userData);
         }
 

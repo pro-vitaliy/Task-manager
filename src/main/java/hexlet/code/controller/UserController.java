@@ -1,8 +1,6 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.user.UserCreateDTO;
 import hexlet.code.dto.user.UserDTO;
-import hexlet.code.dto.user.UserUpdateDTO;
 import hexlet.code.service.UserService;
 import hexlet.code.util.SecurityUtils;
 
@@ -51,14 +49,14 @@ public class UserController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO create(@Valid @RequestBody UserCreateDTO userData) {
+    public UserDTO create(@Valid @RequestBody UserDTO userData) {
         return userService.create(userData);
     }
 
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("@securityUtils.isOwner(#id) or @securityUtils.isAdmin()")
-    public UserDTO update(@Valid @RequestBody UserUpdateDTO userData, @PathVariable Long id) {
+    public UserDTO update(@Valid @RequestBody UserDTO userData, @PathVariable Long id) {
         return userService.update(userData, id);
     }
 

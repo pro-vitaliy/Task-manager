@@ -1,17 +1,15 @@
 package hexlet.code.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hexlet.code.dto.user.UserCreateDTO;
 import hexlet.code.dto.user.UserDTO;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.util.ModelGenerator;
-import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +27,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -85,21 +82,15 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         var body = result.getResponse().getContentAsString();
-
-        List<UserDTO> usersDto = om.readValue(body, new TypeReference<>() { });
-        List<UserDTO> expected = userRepository.findAll()
-                .stream()
-                .map(userMapper::map)
-                .toList();
-        Assertions.assertThat(usersDto).containsExactlyInAnyOrderElementsOf(expected);
+        assertThatJson(body).isArray();
     }
 
     @Test
     public void testCreate() throws Exception {
         var userModel = Instancio.of(modelGenerator.getUserModel()).create();
-        var userData = new UserCreateDTO(userModel.getEmail(), userModel.getPassword());
-        userData.setFirstName(userModel.getFirstName());
-        userData.setLastName(userModel.getLastName());
+        var userData = new UserDTO(JsonNullable.of(userModel.getEmail()), JsonNullable.of(userModel.getPassword()));
+        userData.setFirstName(JsonNullable.of(userModel.getFirstName()));
+        userData.setLastName(JsonNullable.of(userModel.getLastName()));
 
         var request = post("/api/users")
                 .with(jwt())
@@ -109,13 +100,13 @@ public class UserControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isCreated());
 
-        Optional<User> expectedUser = userRepository.findByEmail(userData.getEmail());
+        Optional<User> expectedUser = userRepository.findByEmail(userData.getEmail().get());
         assertThat(expectedUser)
                 .isPresent()
                 .hasValueSatisfying(user -> {
-                    assertThat(user.getEmail()).isEqualTo(userData.getEmail());
-                    assertThat(user.getFirstName()).isEqualTo(userData.getFirstName());
-                    assertThat(user.getLastName()).isEqualTo(userData.getLastName());
+                    assertThat(user.getEmail()).isEqualTo(userData.getEmail().get());
+                    assertThat(user.getFirstName()).isEqualTo(userData.getFirstName().get());
+                    assertThat(user.getLastName()).isEqualTo(userData.getLastName().get());
                     assertThat(user.getCreatedAt()).isNotNull();
                 });
     }

@@ -1,7 +1,5 @@
 package hexlet.code.service;
 
-import hexlet.code.dto.user.UserUpdateDTO;
-import hexlet.code.dto.user.UserCreateDTO;
 import hexlet.code.dto.user.UserDTO;
 import hexlet.code.exception.EntityDeletionException;
 import hexlet.code.exception.ResourceNotFoundException;
@@ -11,7 +9,9 @@ import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -40,13 +40,18 @@ public class UserService {
                 .toList();
     }
 
-    public UserDTO create(UserCreateDTO userData) {
+    public UserDTO create(UserDTO userData) {
+
+        if (!userData.getEmail().isPresent() || !userData.getPassword().isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Пароль и почта обязательны");
+        }
+
         var user = userMapper.map(userData);
         userRepository.save(user);
         return userMapper.map(user);
     }
 
-    public UserDTO update(UserUpdateDTO userData, Long userId) {
+    public UserDTO update(UserDTO userData, Long userId) {
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with Id " + userId + " not found."));
         userMapper.update(userData, user);
