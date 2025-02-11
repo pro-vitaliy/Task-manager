@@ -1,8 +1,6 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.label.LabelCreateDTO;
 import hexlet.code.dto.label.LabelDTO;
-import hexlet.code.dto.label.LabelUpdateDTO;
 import hexlet.code.service.LabelService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +42,13 @@ public class LabelController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public LabelDTO create(@Valid @RequestBody LabelCreateDTO labelData) {
+    public LabelDTO create(@Valid @RequestBody LabelDTO labelData) {
         return labelService.create(labelData);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public LabelDTO update(@Valid @RequestBody LabelUpdateDTO labelData, @PathVariable Long id) {
+    public LabelDTO update(@Valid @RequestBody LabelDTO labelData, @PathVariable Long id) {
         return labelService.update(labelData, id);
     }
 

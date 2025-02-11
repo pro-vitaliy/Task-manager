@@ -1,8 +1,6 @@
 package hexlet.code.service;
 
-import hexlet.code.dto.label.LabelCreateDTO;
 import hexlet.code.dto.label.LabelDTO;
-import hexlet.code.dto.label.LabelUpdateDTO;
 import hexlet.code.exception.EntityDeletionException;
 import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.LabelMapper;
@@ -10,7 +8,9 @@ import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -39,13 +39,18 @@ public class LabelService {
                 .toList();
     }
 
-    public LabelDTO create(LabelCreateDTO labelData) {
+    public LabelDTO create(LabelDTO labelData) {
+
+        if (!labelData.getName().isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Название метки обязательно");
+        }
+
         var label = labelMapper.map(labelData);
         labelRepository.save(label);
         return labelMapper.map(label);
     }
 
-    public LabelDTO update(LabelUpdateDTO labelData, Long id) {
+    public LabelDTO update(LabelDTO labelData, Long id) {
         var label = labelRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Label with id " + id + " not found"));
         labelMapper.update(labelData, label);
