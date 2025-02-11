@@ -2,7 +2,6 @@ package hexlet.code.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import hexlet.code.dto.label.LabelCreateDTO;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
@@ -20,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -86,8 +86,7 @@ public class LabelControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        var createData = new LabelCreateDTO("new label");
-
+        var createData = Map.of("name", "new label");
         var request = post("/api/labels")
                 .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
