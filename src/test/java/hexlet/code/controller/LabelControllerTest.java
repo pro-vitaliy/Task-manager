@@ -96,6 +96,7 @@ public class LabelControllerTest {
         mockMvc.perform(request).andExpect(status().isCreated());
         Optional<Label> expectedLabel = labelRepository.findByName("new label");
         assertThat(expectedLabel).isPresent();
+        assertThat(expectedLabel.get().getCreatedAt()).isNotNull();
     }
 
     @Test

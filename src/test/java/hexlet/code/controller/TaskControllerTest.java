@@ -151,6 +151,7 @@ public class TaskControllerTest {
                     assertThat(task.getTaskStatus().getSlug()).isEqualTo(taskData.getStatus());
                     assertThat(task.getLabels()).contains(testLabel);
                     assertThat(task.getAssignee()).isEqualTo(testAssignee);
+                    assertThat(task.getCreatedAt()).isNotNull();
                 });
     }
 

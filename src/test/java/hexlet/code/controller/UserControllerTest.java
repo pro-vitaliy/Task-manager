@@ -116,6 +116,7 @@ public class UserControllerTest {
                     assertThat(user.getEmail()).isEqualTo(userData.getEmail());
                     assertThat(user.getFirstName()).isEqualTo(userData.getFirstName());
                     assertThat(user.getLastName()).isEqualTo(userData.getLastName());
+                    assertThat(user.getCreatedAt()).isNotNull();
                 });
     }
 

@@ -115,6 +115,7 @@ public class TaskStatusControllerTest {
                 .hasValueSatisfying(taskStatus -> {
                     assertThat(taskStatus.getName()).isEqualTo(taskStatusData.getName());
                     assertThat(taskStatus.getSlug()).isEqualTo(taskStatusData.getSlug());
+                    assertThat(taskStatus.getCreatedAt()).isNotNull();
                 });
     }
 
