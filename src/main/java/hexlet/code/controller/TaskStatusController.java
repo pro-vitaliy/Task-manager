@@ -1,8 +1,6 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.taskStatus.TaskStatusCreateDTO;
 import hexlet.code.dto.taskStatus.TaskStatusDTO;
-import hexlet.code.dto.taskStatus.TaskStatusUpdateDTO;
 import hexlet.code.service.TaskStatusService;
 
 import jakarta.validation.Valid;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -38,7 +37,12 @@ public class TaskStatusController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskStatusDTO create(@Valid @RequestBody TaskStatusCreateDTO data) {
+    public TaskStatusDTO create(@Valid @RequestBody TaskStatusDTO data) {
+
+        if (!data.getName().isPresent() || !data.getSlug().isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Название статуса и слаг обязательны");
+        }
+
         return taskStatusService.create(data);
     }
 
@@ -53,7 +57,7 @@ public class TaskStatusController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TaskStatusDTO update(@Valid @RequestBody TaskStatusUpdateDTO data, @PathVariable Long id) {
+    public TaskStatusDTO update(@Valid @RequestBody TaskStatusDTO data, @PathVariable Long id) {
         return taskStatusService.update(data, id);
     }
 
