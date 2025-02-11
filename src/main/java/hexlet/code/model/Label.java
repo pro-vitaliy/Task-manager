@@ -7,7 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -31,7 +31,7 @@ public class Label implements BaseEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Size(min = 3, max = 1000)
     @Column(unique = true)
     private String name;
