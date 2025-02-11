@@ -16,11 +16,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class LabelDTO {
 
-    private JsonNullable<Long> id;
+    private Long id;
 
     @NotNull
     @Size(min = 3, max = 1000)
-    private JsonNullable<String> name;
+    private JsonNullable<String> name = JsonNullable.undefined();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate createdAt;

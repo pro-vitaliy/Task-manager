@@ -15,15 +15,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class TaskStatusDTO {
 
-    private JsonNullable<Long> id;
+    private Long id;
 
     @NotBlank
     @Size(min = 1)
-    private JsonNullable<String> name;
+    private JsonNullable<String> name = JsonNullable.undefined();
 
     @NotBlank
     @Size(min = 1)
-    private JsonNullable<String> slug;
+    private JsonNullable<String> slug = JsonNullable.undefined();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
