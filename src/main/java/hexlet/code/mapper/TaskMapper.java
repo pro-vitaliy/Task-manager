@@ -1,8 +1,6 @@
 package hexlet.code.mapper;
 
-import hexlet.code.dto.task.TaskCreateDTO;
 import hexlet.code.dto.task.TaskDTO;
-import hexlet.code.dto.task.TaskUpdateDTO;
 import hexlet.code.model.Label;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
@@ -44,19 +42,23 @@ public abstract class TaskMapper {
     @Mapping(source = "labels", qualifiedByName = "addIdsFromLabels", target = "taskLabelIds")
     public abstract TaskDTO map(Task taskModel);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     @Mapping(source = "title", target = "name")
     @Mapping(source = "content", target = "description")
     @Mapping(source = "assigneeId", target = "assignee")
     @Mapping(source = "status", qualifiedByName = "getTaskStatusFromStatus", target = "taskStatus")
     @Mapping(source = "taskLabelIds", qualifiedByName = "addLabelsById", target = "labels")
-    public abstract Task map(TaskCreateDTO taskData);
+    public abstract Task map(TaskDTO taskData);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     @Mapping(source = "title", target = "name")
     @Mapping(source = "content", target = "description")
     @Mapping(source = "status", qualifiedByName = "getTaskStatusFromStatus", target = "taskStatus")
     @Mapping(source = "assigneeId", target = "assignee")
     @Mapping(source = "taskLabelIds", qualifiedByName = "addLabelsById", target = "labels")
-    public abstract void update(TaskUpdateDTO taskData, @MappingTarget Task taskModel);
+    public abstract void update(TaskDTO taskData, @MappingTarget Task taskModel);
 
     @Named("getTaskStatusFromStatus")
     public TaskStatus getTaskStatusFromStatus(String status) {

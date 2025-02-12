@@ -3,7 +3,6 @@ package hexlet.code.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import hexlet.code.dto.task.TaskCreateDTO;
 import hexlet.code.dto.task.TaskDTO;
 import hexlet.code.mapper.TaskMapper;
 import hexlet.code.model.Label;
@@ -22,6 +21,7 @@ import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -128,11 +128,13 @@ public class TaskControllerTest {
     @Transactional
     public void testCreate() throws Exception {
         var taskModel = Instancio.of(modelGenerator.getTaskModel()).create();
-        var taskData = new TaskCreateDTO(testStatus.getSlug(), taskModel.getName());
-        taskData.setIndex(taskModel.getIndex());
-        taskData.setAssigneeId(testAssignee.getId());
-        taskData.setContent(taskModel.getDescription());
-        taskData.setTaskLabelIds(Set.of(testLabel.getId()));
+        var taskData = new TaskDTO();
+        taskData.setTitle(JsonNullable.of("new task"));
+        taskData.setStatus(JsonNullable.of(testTask.getTaskStatus().getSlug()));
+        taskData.setIndex(JsonNullable.of(taskModel.getIndex()));
+        taskData.setAssigneeId(JsonNullable.of(testAssignee.getId()));
+        taskData.setContent(JsonNullable.of(taskModel.getDescription()));
+        taskData.setTaskLabelIds(JsonNullable.of(Set.of(testLabel.getId())));
 
         var request = post("/api/tasks")
                 .with(jwt())
@@ -142,13 +144,13 @@ public class TaskControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isCreated());
 
-        Optional<Task> expectedTask = taskRepository.findByName(taskData.getTitle());
+        Optional<Task> expectedTask = taskRepository.findByName(taskData.getTitle().get());
 
         assertThat(expectedTask)
                 .isPresent()
                 .hasValueSatisfying(task -> {
-                    assertThat(task.getName()).isEqualTo(taskData.getTitle());
-                    assertThat(task.getTaskStatus().getSlug()).isEqualTo(taskData.getStatus());
+                    assertThat(task.getName()).isEqualTo("new task");
+                    assertThat(task.getTaskStatus().getSlug()).isEqualTo(taskData.getStatus().get());
                     assertThat(task.getLabels()).contains(testLabel);
                     assertThat(task.getAssignee()).isEqualTo(testAssignee);
                     assertThat(task.getCreatedAt()).isNotNull();
@@ -213,7 +215,7 @@ public class TaskControllerTest {
 
         assertThat(actual)
                 .isNotEmpty()
-                .allMatch(task -> task.getAssigneeId().equals(testAssignee.getId()));
+                .allMatch(task -> task.getAssigneeId().get().equals(testAssignee.getId()));
     }
 
     @Test
