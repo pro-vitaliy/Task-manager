@@ -1,7 +1,7 @@
 package hexlet.code.component;
 
 import hexlet.code.dto.label.LabelDTO;
-import hexlet.code.dto.taskStatus.TaskStatusDTO;
+import hexlet.code.dto.taskstatus.TaskStatusDTO;
 import hexlet.code.dto.user.UserDTO;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskStatusRepository;
@@ -9,33 +9,22 @@ import hexlet.code.repository.UserRepository;
 import hexlet.code.service.LabelService;
 import hexlet.code.service.TaskStatusService;
 import hexlet.code.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.openapitools.jackson.nullable.JsonNullable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private TaskStatusService taskStatusService;
-
-    @Autowired
-    private LabelService labelService;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TaskStatusRepository taskStatusRepository;
-
-    @Autowired
-    private LabelRepository labelRepository;
+    private final UserService userService;
+    private final TaskStatusService taskStatusService;
+    private final LabelService labelService;
+    private final UserRepository userRepository;
+    private final TaskStatusRepository taskStatusRepository;
+    private final LabelRepository labelRepository;
 
     @Override
     public void run(String... args) {
@@ -47,7 +36,6 @@ public class DataInitializer implements CommandLineRunner {
         if (!userRepository.existsByEmail(userData.getEmail().get())) {
             userService.create(userData);
         }
-
 
         List<TaskStatusDTO> taskStatusesData = List.of(
                 new TaskStatusDTO(JsonNullable.of("draft"), JsonNullable.of("draft")),

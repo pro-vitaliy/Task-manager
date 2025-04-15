@@ -8,7 +8,7 @@ import hexlet.code.model.User;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.UserRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,16 +16,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
-    private UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final TaskRepository taskRepository;
+    private final UserMapper userMapper;
 
     public UserDTO findById(Long id) {
         var user = userRepository.findById(id)
@@ -52,6 +47,7 @@ public class UserService {
     }
 
     public UserDTO update(UserDTO userData, Long userId) {
+//        TODO: Реализовать проверку на уже сущуствующий email
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with Id " + userId + " not found."));
         userMapper.update(userData, user);

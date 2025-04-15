@@ -1,29 +1,23 @@
 package hexlet.code.service;
 
-
-import hexlet.code.dto.taskStatus.TaskStatusDTO;
+import hexlet.code.dto.taskstatus.TaskStatusDTO;
 import hexlet.code.exception.EntityDeletionException;
 import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TaskStatusService {
-
-    @Autowired
-    private TaskStatusRepository taskStatusRepository;
-
-    @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
-    private TaskStatusMapper taskStatusMapper;
+    private final TaskStatusRepository taskStatusRepository;
+    private final TaskRepository taskRepository;
+    private final TaskStatusMapper taskStatusMapper;
 
     public TaskStatusDTO show(Long id) {
         var taskStatus = taskStatusRepository.findById(id)

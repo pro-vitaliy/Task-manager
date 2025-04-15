@@ -7,7 +7,7 @@ import hexlet.code.mapper.TaskMapper;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.specification.TaskSpecification;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,16 +15,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TaskService {
-
-    @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
-    private TaskMapper taskMapper;
-
-    @Autowired
-    private TaskSpecification taskSpecification;
+    private final TaskRepository taskRepository;
+    private final TaskMapper taskMapper;
+    private final TaskSpecification taskSpecification;
 
     public TaskDTO show(Long id) {
         var task = taskRepository.findById(id)
@@ -46,8 +41,6 @@ public class TaskService {
                 .map(taskMapper::map)
                 .toList();
     }
-
-
 
     public TaskDTO create(TaskDTO taskData) {
 

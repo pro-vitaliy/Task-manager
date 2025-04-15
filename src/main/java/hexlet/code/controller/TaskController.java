@@ -3,8 +3,7 @@ package hexlet.code.controller;
 import hexlet.code.dto.task.TaskDTO;
 import hexlet.code.dto.task.TaskParamsDTO;
 import hexlet.code.service.TaskService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -24,10 +23,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/tasks")
+@RequiredArgsConstructor
 public class TaskController {
-
-    @Autowired
-    private TaskService taskService;
+    private final TaskService taskService;
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)

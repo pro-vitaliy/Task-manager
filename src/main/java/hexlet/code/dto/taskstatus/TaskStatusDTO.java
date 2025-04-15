@@ -1,4 +1,4 @@
-package hexlet.code.dto.taskStatus;
+package hexlet.code.dto.taskstatus;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;

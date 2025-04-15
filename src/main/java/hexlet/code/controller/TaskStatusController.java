@@ -1,11 +1,11 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.taskStatus.TaskStatusDTO;
+import hexlet.code.dto.taskstatus.TaskStatusDTO;
 import hexlet.code.service.TaskStatusService;
 
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -24,10 +24,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/task_statuses")
+@RequiredArgsConstructor
 public class TaskStatusController {
-
-    @Autowired
-    private TaskStatusService taskStatusService;
+    private final TaskStatusService taskStatusService;
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -38,11 +37,9 @@ public class TaskStatusController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TaskStatusDTO create(@Valid @RequestBody TaskStatusDTO data) {
-
         if (!data.getName().isPresent() || !data.getSlug().isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Название статуса и слаг обязательны");
         }
-
         return taskStatusService.create(data);
     }
 

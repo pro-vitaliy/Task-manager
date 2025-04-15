@@ -2,7 +2,7 @@ package hexlet.code.config;
 
 
 import hexlet.code.service.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,16 +21,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtDecoder jwtDecoder;
+    private final CustomUserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtDecoder jwtDecoder;
 
     private static final String[] PUBLIC_ENDPOINTS = {
             "/",

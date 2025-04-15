@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TaskSpecification {
+//    TODO: Реализовать пагинацию если задач много
     public Specification<Task> build(TaskParamsDTO params) {
         return withAssigneeId(params.getAssigneeId())
                 .and(withTitleCont(params.getTitleCont()))
@@ -29,7 +30,7 @@ public class TaskSpecification {
     private Specification<Task> withStatus(String status) {
         return (root, query, cb) -> status == null
                 ? cb.conjunction()
-                : cb.equal(root.join("taskStatus").get("slug"), status);
+                : cb.equal(root.join("taskstatus").get("slug"), status);
     }
 
     private Specification<Task> withLabelId(Long labelId) {

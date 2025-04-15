@@ -7,7 +7,7 @@ import hexlet.code.mapper.LabelMapper;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,16 +15,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LabelService {
-
-    @Autowired
-    private LabelRepository labelRepository;
-
-    @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
-    private LabelMapper labelMapper;
+    private final LabelRepository labelRepository;
+    private final TaskRepository taskRepository;
+    private final LabelMapper labelMapper;
 
     public LabelDTO show(Long id) {
         var label = labelRepository.findById(id)
