@@ -14,7 +14,6 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
@@ -28,12 +27,18 @@ import java.util.stream.Collectors;
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public abstract class TaskMapper {
-
-    @Autowired
     private TaskStatusRepository taskStatusRepository;
+    private LabelRepository labelRepository;
 
     @Autowired
-    private LabelRepository labelRepository;
+    public void setTaskStatusRepository(TaskStatusRepository taskStatusRepository) {
+        this.taskStatusRepository = taskStatusRepository;
+    }
+
+    @Autowired
+    public void setLabelRepository(LabelRepository labelRepository) {
+        this.labelRepository = labelRepository;
+    }
 
     @Mapping(source = "name", target = "title")
     @Mapping(source = "description", target = "content")
