@@ -44,7 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TaskControllerTest {
+class TaskControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -76,7 +76,7 @@ public class TaskControllerTest {
     private Label testLabel;
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         taskRepository.deleteAll();
         taskStatusRepository.deleteAll();
         userRepository.deleteAll();
@@ -99,7 +99,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void testShow() throws Exception {
+    void testShow() throws Exception {
         var request = get("/api/tasks/" + testTask.getId()).with(jwt());
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -115,7 +115,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void testIndex() throws Exception {
+    void testIndex() throws Exception {
         var request = get("/api/tasks").with(jwt());
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -126,7 +126,7 @@ public class TaskControllerTest {
 
     @Test
     @Transactional
-    public void testCreate() throws Exception {
+    void testCreate() throws Exception {
         var taskModel = Instancio.of(modelGenerator.getTaskModel()).create();
         var taskData = new TaskDTO();
         taskData.setTitle(JsonNullable.of("new task"));
@@ -159,7 +159,7 @@ public class TaskControllerTest {
 
     @Test
     @Transactional
-    public void testUpdate() throws Exception {
+    void testUpdate() throws Exception {
         var taskData = new HashMap<String, String>();
         taskData.put("title", "New title");
 
@@ -177,7 +177,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    void testDelete() throws Exception {
         var request = delete("/api/tasks/" + testTask.getId()).with(jwt());
         mockMvc.perform(request)
                 .andExpect(status().isNoContent());
@@ -188,7 +188,7 @@ public class TaskControllerTest {
 
     @Test
     @Transactional
-    public void testUpdateLabels() throws Exception {
+    void testUpdateLabels() throws Exception {
         var taskData = new HashMap<String, Object>();
         taskData.put("labels", Set.of(testLabel.getName()));
 
@@ -204,7 +204,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void testIndexWithParamAssignee() throws Exception {
+    void testIndexWithParamAssignee() throws Exception {
         var request = get("/api/tasks?assigneeId=" + testAssignee.getId()).with(jwt());
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -219,7 +219,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void testIndexWithParamTitle() throws Exception {
+    void testIndexWithParamTitle() throws Exception {
         var request = get("/api/tasks?titleCont=" + testTask.getName()).with(jwt());
         var body = mockMvc.perform(request)
                 .andExpect(status().isOk())

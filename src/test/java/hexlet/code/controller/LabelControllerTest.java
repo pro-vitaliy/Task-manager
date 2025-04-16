@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class LabelControllerTest {
+class LabelControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,7 +54,7 @@ public class LabelControllerTest {
     private Label testLabel;
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         taskRepository.deleteAll();
         labelRepository.deleteAll();
         this.testLabel = Instancio.of(modelGenerator.getLabelModel()).create();
@@ -62,7 +62,7 @@ public class LabelControllerTest {
     }
 
     @Test
-    public void testShow() throws Exception {
+    void testShow() throws Exception {
         var request = get("/api/labels/" + testLabel.getId()).with(jwt());
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -75,7 +75,7 @@ public class LabelControllerTest {
     }
 
     @Test
-    public void testIndex() throws Exception {
+    void testIndex() throws Exception {
         var request = get("/api/labels").with(jwt());
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -85,7 +85,7 @@ public class LabelControllerTest {
     }
 
     @Test
-    public void testCreate() throws Exception {
+    void testCreate() throws Exception {
         var createData = Map.of("name", "new label");
         var request = post("/api/labels")
                 .with(jwt())
@@ -99,7 +99,7 @@ public class LabelControllerTest {
     }
 
     @Test
-    public void testUpdate() throws Exception {
+    void testUpdate() throws Exception {
         var updateData = new HashMap<String, String>();
         updateData.put("name", "bug");
         var request = put("/api/labels/" + testLabel.getId())
@@ -114,7 +114,7 @@ public class LabelControllerTest {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    void testDelete() throws Exception {
         var request = delete("/api/labels/" + testLabel.getId()).with(jwt());
         mockMvc.perform(request).andExpect(status().isNoContent());
         Optional<Label> expectedEmpty = labelRepository.findById(testLabel.getId());

@@ -31,7 +31,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserControllerTest {
+class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -52,7 +52,7 @@ public class UserControllerTest {
     private JwtRequestPostProcessor testUserToken;
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         userRepository.deleteAll();
 
         this.testUser = Instancio.of(modelGenerator.getUserModel()).create();
@@ -62,7 +62,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testShow() throws Exception {
+    void testShow() throws Exception {
         var request = get("/api/users/" + testUser.getId()).with(jwt());
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -76,7 +76,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testIndex() throws Exception {
+    void testIndex() throws Exception {
         var request = get("/api/users").with(jwt());
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -86,7 +86,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testCreate() throws Exception {
+    void testCreate() throws Exception {
         var userModel = Instancio.of(modelGenerator.getUserModel()).create();
         var userData = new UserDTO(JsonNullable.of(userModel.getEmail()), JsonNullable.of(userModel.getPassword()));
         userData.setFirstName(JsonNullable.of(userModel.getFirstName()));
@@ -112,7 +112,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testUpdate() throws Exception {
+    void testUpdate() throws Exception {
         var data = new HashMap<String, String>();
         data.put("lastName", "Soprano");
 
@@ -131,7 +131,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    void testDelete() throws Exception {
         var request = delete("/api/users/" + testUser.getId()).with(testUserToken);
         mockMvc.perform(request)
                 .andExpect(status().isNoContent());
